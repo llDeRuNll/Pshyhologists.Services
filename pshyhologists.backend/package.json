@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint src/**/*.js",
     "start": "node ./src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --env-file=.env src/index.js"
   },
   "keywords": [],
   "author": "Alexander Repeta <a.repeta@goit.global>",
@@ -21,7 +21,10 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.19.2",
     "pino-http": "^11.0.0"
   }
 }
