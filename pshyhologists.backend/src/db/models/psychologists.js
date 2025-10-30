@@ -14,6 +14,7 @@ const psychologistsSchema = new Schema(
         validator: (v) => !v || urlRegex.test(v),
         message: 'avatar_url must be a valid URL',
       },
+      default: [],
     },
     experience: { type: String, required: true, trim: true },
 

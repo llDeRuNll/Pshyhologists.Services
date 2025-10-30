@@ -11,3 +11,8 @@ export const getPsychologistById = async (psychologistId) => {
   const psychologist = await PsychologistsCollection.findById(psychologistId);
   return psychologist;
 };
+
+export const createPsychologist = async (payload) => {
+  const psychologist = await PsychologistsCollection.create(payload);
+  return psychologist;
+};

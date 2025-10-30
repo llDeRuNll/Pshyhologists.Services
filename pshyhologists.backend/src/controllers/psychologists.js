@@ -1,6 +1,7 @@
 // src/controllers/psychologists.js
 import createHttpError from 'http-errors';
 import {
+  createPsychologist,
   getAllPsychologists,
   getPsychologistById,
 } from '../services/psychologists.js';
@@ -31,6 +32,16 @@ export const getPsychologistByIdController = async (req, res, next) => {
   res.json({
     status: 200,
     message: `Successfully found psychologist with id ${psychologistId}!`,
+    data: psychologist,
+  });
+};
+
+export const createPsychologistController = async (req, res) => {
+  const psychologist = await createPsychologist(req.body);
+
+  res.status(201).json({
+    status: 201,
+    message: `Successfully created a student!`,
     data: psychologist,
   });
 };
