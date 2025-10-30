@@ -2,8 +2,10 @@
 import { Router } from 'express';
 import {
   createPsychologistController,
+  deletePsychologistController,
   getAllPsychologistsController,
   getPsychologistByIdController,
+  upsertPsychologController,
 } from '../controllers/psychologists.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
@@ -21,3 +23,15 @@ router.get(
 // POST /psychologists
 router.post('/psychologists', ctrlWrapper(createPsychologistController));
 export default router;
+
+//DELETE /psychologists/:psychologistId
+router.delete(
+  '/psychologists/:psychologistId',
+  ctrlWrapper(deletePsychologistController),
+);
+
+//PUT /psychologists/:psychologistId
+router.put(
+  '/psychologists/:psychologistId',
+  ctrlWrapper(upsertPsychologController),
+);

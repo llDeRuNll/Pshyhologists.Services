@@ -16,3 +16,32 @@ export const createPsychologist = async (payload) => {
   const psychologist = await PsychologistsCollection.create(payload);
   return psychologist;
 };
+
+export const deletePsychologist = async (psychologistId) => {
+  const psychologist = await PsychologistsCollection.findOneAndDelete({
+    _id: psychologistId,
+  });
+  return psychologist;
+};
+
+export const upsertPsycholog = async (
+  psychologistId,
+  payload,
+  options = {},
+) => {
+  const rawResult = await PsychologistsCollection.findByIdAndUpdate(
+    { _id: psychologistId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+  if (!rawResult || !rawResult.value) return null;
+
+  return {
+    psychologist: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
+};
