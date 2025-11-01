@@ -1,12 +1,23 @@
 // src/services/psychologists.js
 
+import { SORT_ORDER } from '../constans/index.js';
 import { PsychologistsCollection } from '../db/models/psychologists.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllPsychologists = async (page, perPage) => {
+export const getAllPsychologists = async (
+  page = 1,
+  perPage = 10,
+  sortBy = '_id',
+  sortOrder = SORT_ORDER.ASC,
+) => {
   const skip = (page - 1) * perPage;
   const [psychologists, total] = await Promise.all([
-    PsychologistsCollection.find().skip(skip).limit(perPage),
+    PsychologistsCollection.find()
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder })
+      .exec(),
+
     PsychologistsCollection.countDocuments(),
   ]);
 

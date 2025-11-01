@@ -9,12 +9,18 @@ import {
 } from '../services/psychologists.js';
 import mongoose from 'mongoose';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getAllPsychologistsController = async (req, res, next) => {
   try {
     const { page, perPage } = parsePaginationParams(req.query);
 
-    const result = await getAllPsychologists(page, perPage);
+    const { sortBy, sortOrder } = parseSortParams(req.query);
+
+    const result = await getAllPsychologists(page, perPage, {
+      sortBy,
+      sortOrder,
+    });
 
     res.json({
       status: 200,
