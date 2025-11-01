@@ -15,7 +15,7 @@ export const errorHandler = (err, req, res, next) => {
   if (err.name === 'CastError') {
     return res.status(400).json({
       status: 400,
-      message: 'Invalid id format',
+      message: `Invalid value for field "${err.path}"`,
     });
   }
 

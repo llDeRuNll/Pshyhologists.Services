@@ -1,10 +1,29 @@
 // src/services/psychologists.js
 
+import { SORT_ORDER } from '../constans/index.js';
 import { PsychologistsCollection } from '../db/models/psychologists.js';
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllPsychologists = async () => {
-  const psychologists = await PsychologistsCollection.find();
-  return psychologists;
+export const getAllPsychologists = async (
+  page = 1,
+  perPage = 10,
+  sortBy = '_id',
+  sortOrder = SORT_ORDER.ASC,
+) => {
+  const skip = (page - 1) * perPage;
+  const [psychologists, total] = await Promise.all([
+    PsychologistsCollection.find()
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder })
+      .exec(),
+
+    PsychologistsCollection.countDocuments(),
+  ]);
+
+  const paginationData = calculatePaginationData(total, perPage, page);
+
+  return { data: psychologists, ...paginationData };
 };
 
 export const getPsychologistById = async (psychologistId) => {
@@ -30,7 +49,7 @@ export const upsertPsycholog = async (
   options = {},
 ) => {
   const rawResult = await PsychologistsCollection.findByIdAndUpdate(
-    { _id: psychologistId },
+    psychologistId,
     payload,
     {
       new: true,
@@ -38,6 +57,7 @@ export const upsertPsycholog = async (
       ...options,
     },
   );
+
   if (!rawResult || !rawResult.value) return null;
 
   return {
