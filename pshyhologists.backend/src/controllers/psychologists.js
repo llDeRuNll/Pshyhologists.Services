@@ -8,14 +8,22 @@ import {
   upsertPsycholog,
 } from '../services/psychologists.js';
 import mongoose from 'mongoose';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getAllPsychologistsController = async (req, res, next) => {
-  const psychologists = await getAllPsychologists();
-  res.json({
-    status: 200,
-    message: 'Successfully found psychologists!',
-    data: psychologists,
-  });
+  try {
+    const { page, perPage } = parsePaginationParams(req.query);
+
+    const result = await getAllPsychologists(page, perPage);
+
+    res.json({
+      status: 200,
+      message: 'Successfully found psychologists!',
+      ...result,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const getPsychologistByIdController = async (req, res, next) => {
