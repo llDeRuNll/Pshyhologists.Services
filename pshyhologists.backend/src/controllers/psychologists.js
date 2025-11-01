@@ -63,13 +63,26 @@ export const upsertPsychologController = async (req, res) => {
   const result = await upsertPsycholog(psychologistId, req.body, {
     upsert: true,
   });
-  if (!result) throw createHttpError(404, 'Psycholog not found');
+  if (!result) throw createHttpError(404, 'Psychologist not found');
 
   const status = result.isNew ? 201 : 200;
 
   res.status(status).json({
     status,
-    message: `Successfully upserted a psychologa!`,
-    data: result.student,
+    message: `Successfully upserted a psychologist!`,
+    data: result.psychologist,
+  });
+};
+
+export const patchPsychologController = async (req, res) => {
+  const { psychologistId } = req.params;
+
+  const result = await upsertPsycholog(psychologistId, req.body);
+  if (!result) throw createHttpError(404, 'Psychologist not found');
+
+  res.status(200).json({
+    status: 200,
+    message: `Successfully patched psychologist with id ${psychologistId}!`,
+    data: result.psychologist,
   });
 };

@@ -30,7 +30,7 @@ export const upsertPsycholog = async (
   options = {},
 ) => {
   const rawResult = await PsychologistsCollection.findByIdAndUpdate(
-    { _id: psychologistId },
+    psychologistId,
     payload,
     {
       new: true,
@@ -38,6 +38,7 @@ export const upsertPsycholog = async (
       ...options,
     },
   );
+
   if (!rawResult || !rawResult.value) return null;
 
   return {

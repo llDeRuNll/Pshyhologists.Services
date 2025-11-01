@@ -6,6 +6,7 @@ import {
   getAllPsychologistsController,
   getPsychologistByIdController,
   upsertPsychologController,
+  patchPsychologController,
 } from '../controllers/psychologists.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
@@ -30,8 +31,14 @@ router.delete(
   ctrlWrapper(deletePsychologistController),
 );
 
-//PUT /psychologists/:psychologistId
+//PUT psychologists/:psychologistId
 router.put(
   '/psychologists/:psychologistId',
   ctrlWrapper(upsertPsychologController),
+);
+
+//Patch psychologists/:psychologistId
+router.patch(
+  '/psychologists/:psychologistId',
+  ctrlWrapper(patchPsychologController),
 );
